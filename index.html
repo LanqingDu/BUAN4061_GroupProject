@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Collaboration Portal | BUAN4061</title>
+    <title>Project Collaboration Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,58 +16,48 @@
             --danger: #ef4444;
         }
 
-        body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg); color: var(--text-main); display: flex; flex-direction: column; align-items: center; line-height: 1.5; }
-        header { width: 100%; background: white; padding: 2rem 0; border-bottom: 1px solid var(--border); text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg); color: var(--text-main); display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: white; padding: 1.5rem 0; border-bottom: 1px solid var(--border); text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .main-content { max-width: 1400px; width: 95%; margin: 2rem 0; }
 
-        /* Proposal Form Card */
-        .proposal-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 2.5rem; border: 1px solid var(--border); }
+        /* Form Card */
+        .proposal-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 2rem; border: 1px solid var(--border); }
         .grid-form { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
         .full-width { grid-column: span 3; }
         label { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; display: block; color: #475569; }
-        input, textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; transition: all 0.2s; box-sizing: border-box; font-family: inherit; }
+        input, textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; transition: all 0.2s; box-sizing: border-box; }
         input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
 
         /* Table UI */
         .table-container { background: white; border-radius: 12px; overflow-x: auto; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid var(--border); }
-        table { width: 100%; border-collapse: collapse; min-width: 1100px; table-layout: fixed; }
-        th { background-color: #f1f5f9; padding: 1rem; text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); color: #475569; }
-        td { padding: 1.25rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+        th { background-color: #f1f5f9; padding: 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); color: #475569; }
+        td { padding: 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
 
-        .col-leader { width: 160px; }
-        .col-details { width: 300px; }
-        .col-member { background-color: var(--accent-yellow); width: 140px; border-left: 1px solid #eab30822; }
-        .col-status { width: 100px; text-align: center; }
+        .col-leader { width: 180px; }
+        .col-member { background-color: var(--accent-yellow); width: 150px; border-left: 1px solid #eab30822; }
 
-        /* Links and Tags */
-        .email-link { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
-        .email-link:hover { text-decoration: underline; }
-        .member-tag { display: flex; flex-direction: column; background: #fffbeb; padding: 8px; border-radius: 6px; border: 1px solid #fde68a; position: relative; min-height: 40px; justify-content: center; }
-        .remove-x { position: absolute; top: 0; right: 4px; color: var(--danger); cursor: pointer; font-size: 1.2rem; border: none; background: none; padding: 0; }
-        .remove-x:hover { transform: scale(1.2); }
+        /* Email Link Styling */
+        .email-link { color: var(--primary); text-decoration: none; font-weight: 600; transition: opacity 0.2s; }
+        .email-link:hover { opacity: 0.7; text-decoration: underline; }
 
-        /* Buttons and Badges */
-        .btn-main { background-color: var(--primary); color: white; border: none; padding: 0.8rem 2.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .btn-main:hover { background-color: var(--primary-hover); }
-        .btn-join { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 0.5rem; width: 100%; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+        /* Member Tag */
+        .member-tag { display: flex; flex-direction: column; background: #fffbeb; padding: 6px; border-radius: 6px; border: 1px solid #fde68a; position: relative; }
+        .remove-x { position: absolute; top: 2px; right: 5px; color: var(--danger); cursor: pointer; font-size: 1.2rem; border: none; background: none; }
+
+        .btn-main { background-color: var(--primary); color: white; border: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .btn-join { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 0.4rem; width: 100%; border-radius: 4px; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
         .btn-join:hover { background: var(--primary); color: white; }
 
-        .badge-full { background: #fee2e2; color: #991b1b; padding: 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
-        .withdraw-link { font-size: 0.7rem; color: #94a3b8; cursor: pointer; text-decoration: underline; display: block; margin-top: 6px; }
-        .withdraw-link:hover { color: var(--danger); }
-
-        /* Loading Overlay */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: #e2e8f0; display: none; }
-        #loader-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; }
+        .badge-full { background: #fee2e2; color: #991b1b; padding: 0.4rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-align: center; display: block; }
+        .withdraw-link { font-size: 0.7rem; color: #94a3b8; cursor: pointer; text-decoration: underline; display: block; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-<div id="loader"><div id="loader-bar"></div></div>
-
 <header>
-    <h1>Research Project Collaboration</h1>
-    <p style="color: #64748b; margin: 0.5rem 0 0 0;">Phase 1: Propose Ideas &nbsp; | &nbsp; Phase 2: Form Teams (Max 2 groups per student)</p>
+    <h1>Project Collaboration Portal</h1>
+    <p style="color: #64748b; margin: 0.5rem 0 0 0;">Connect with peers and finalize your research teams.</p>
 </header>
 
 <div class="main-content">
@@ -100,154 +90,91 @@
         <table id="projectTable">
             <thead>
                 <tr>
-                    <th class="col-leader">Group Leader</th>
-                    <th class="col-details">Project Idea</th>
+                    <th class="col-leader">Leader</th>
+                    <th>Project Details</th>
                     <th class="col-member">Member 1</th>
                     <th class="col-member">Member 2</th>
                     <th class="col-member">Member 3</th>
                     <th class="col-member">Member 4</th>
-                    <th class="col-status">Status</th>
+                    <th style="width: 100px;">Status</th>
                 </tr>
             </thead>
-            <tbody>
-                </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </div>
 
 <script>
-    /** CONFIGURATION: Paste your Web App URL from Google Apps Script below **/
-    const API_URL = "YOUR_SCRIPT_URL_HERE"; 
-    
-    let projects = [];
+    // Database Logic (Currently uses LocalStorage for demo)
+    let projects = JSON.parse(localStorage.getItem('groups_v4')) || [];
 
-    // Check if a student is already in 2 groups
-    function getJoinCount(email) {
-        let count = 0;
-        const target = email.trim().toLowerCase();
-        projects.forEach(p => {
-            p.members.forEach(m => {
-                if (m.email.toLowerCase() === target) count++;
-            });
-        });
-        return count;
-    }
-
-    async function loadData() {
-        toggleLoader(true);
-        try {
-            const response = await fetch(API_URL);
-            const rawData = await response.json();
-            projects = rawData.map(p => ({
-                id: p.ID,
-                leader: p.LeaderName,
-                leaderEmail: p.LeaderEmail,
-                projectName: p.ProjectName,
-                description: p.Description,
-                members: JSON.parse(p.MembersJSON || "[]")
-            }));
-            render();
-        } catch (e) {
-            console.error("Database sync error:", e);
-        }
-        toggleLoader(false);
-    }
-
-    async function addProject() {
+    function addProject() {
         const leader = document.getElementById('leaderName').value;
         const email = document.getElementById('leaderEmail').value;
         const name = document.getElementById('projName').value;
         const desc = document.getElementById('projDesc').value;
 
-        if(!leader || !email || !name) return alert("Please fill in Name, Email, and Project Title.");
+        if(!leader || !email || !name) return alert("All fields are required.");
 
-        toggleLoader(true);
-        const data = { action: "ADD_PROJECT", leader, email, name, desc };
-        await fetch(API_URL, { method: "POST", body: JSON.stringify(data) });
-        
+        projects.push({
+            id: Date.now(),
+            leader: leader,
+            leaderEmail: email,
+            projectName: name,
+            description: desc,
+            members: [] 
+        });
+
+        saveAndRender();
         document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-        await loadData();
     }
 
-    async function joinProject(index) {
-        const name = prompt("Enter your full name:");
+    function joinProject(index) {
+        const name = prompt("Enter your name:");
         if (!name) return;
-        const email = prompt("Enter your institutional email:");
+        const email = prompt("Enter your email address:");
         if (!email) return;
 
-        if (getJoinCount(email) >= 2) {
-            alert("Error: You cannot join more than 2 projects as a member.");
-            return;
-        }
-
-        toggleLoader(true);
-        projects[index].members.push({ name: name.trim(), email: email.trim() });
-        
-        await fetch(API_URL, { 
-            method: "POST", 
-            body: JSON.stringify({ 
-                action: "UPDATE_MEMBERS", 
-                id: projects[index].id, 
-                members: projects[index].members 
-            }) 
-        });
-        await loadData();
+        projects[index].members.push({ name: name, email: email });
+        saveAndRender();
     }
 
-    async function leaveProject(pIdx, mIdx) {
-        const verify = prompt("To withdraw, please verify your email address:");
-        if (!verify) return;
-
-        if (verify.trim().toLowerCase() === projects[pIdx].members[mIdx].email.toLowerCase()) {
-            toggleLoader(true);
+    function leaveProject(pIdx, mIdx) {
+        const confirmEmail = prompt("To withdraw, please verify your email address:");
+        if (confirmEmail === projects[pIdx].members[mIdx].email) {
             projects[pIdx].members.splice(mIdx, 1);
-            await fetch(API_URL, { 
-                method: "POST", 
-                body: JSON.stringify({ 
-                    action: "UPDATE_MEMBERS", 
-                    id: projects[pIdx].id, 
-                    members: projects[pIdx].members 
-                }) 
-            });
-            await loadData();
+            saveAndRender();
         } else {
-            alert("Verification failed. Incorrect email.");
+            alert("Email verification failed. Withdrawal cancelled.");
         }
     }
 
-    async function withdrawProposal(pIdx) {
-        const verify = prompt("To delete this proposal, verify the Leader email:");
-        if (!verify) return;
-
-        if (verify.trim().toLowerCase() === projects[pIdx].leaderEmail.toLowerCase()) {
-            if (confirm("Permanently delete this project?")) {
-                toggleLoader(true);
-                await fetch(API_URL, { 
-                    method: "POST", 
-                    body: JSON.stringify({ action: "DELETE_PROJECT", id: projects[pIdx].id }) 
-                });
-                await loadData();
+    function withdrawProposal(pIdx) {
+        const confirmEmail = prompt("To delete this proposal, please verify the Leader's email address:");
+        if (confirmEmail === projects[pIdx].leaderEmail) {
+            if(confirm("Are you sure you want to remove this entire project?")) {
+                projects.splice(pIdx, 1);
+                saveAndRender();
             }
         } else {
-            alert("Verification failed.");
+            alert("Email verification failed.");
         }
     }
 
-    function render() {
+    function saveAndRender() {
+        localStorage.setItem('groups_v4', JSON.stringify(projects));
         const tbody = document.querySelector('#projectTable tbody');
         tbody.innerHTML = '';
 
         projects.forEach((p, pIdx) => {
-            const isFull = p.members.length >= 4;
             let memberCells = '';
-
             for(let i = 0; i < 4; i++) {
                 if(p.members[i]) {
                     memberCells += `
                         <td class="col-member">
                             <div class="member-tag">
                                 <a href="mailto:${p.members[i].email}" class="email-link">${p.members[i].name}</a>
-                                <button class="remove-x" onclick="leaveProject(${pIdx}, ${i})" title="Withdraw">&times;</button>
+                                <button class="remove-x" onclick="leaveProject(${pIdx}, ${i})">&times;</button>
                             </div>
                         </td>`;
                 } else {
@@ -261,26 +188,18 @@
                         <a href="mailto:${p.leaderEmail}" class="email-link">${p.leader}</a>
                         <span class="withdraw-link" onclick="withdrawProposal(${pIdx})">Withdraw Proposal</span>
                     </td>
-                    <td class="col-details">
-                        <div style="font-weight:600; color: #0f172a; margin-bottom: 4px;">${p.projectName}</div>
-                        <div style="font-size:0.8rem; color:#64748b; line-height: 1.4;">${p.description}</div>
+                    <td>
+                        <div style="font-weight:600;">${p.projectName}</div>
+                        <div style="font-size:0.85rem; color:#64748b;">${p.description}</div>
                     </td>
                     ${memberCells}
-                    <td class="col-status">${isFull ? '<span class="badge-full">Full</span>' : ''}</td>
+                    <td>${p.members.length >= 4 ? '<span class="badge-full">FULL</span>' : ''}</td>
                 </tr>
             `;
         });
     }
 
-    function toggleLoader(show) {
-        const l = document.getElementById('loader');
-        const b = document.getElementById('loader-bar');
-        l.style.display = show ? 'block' : 'none';
-        b.style.width = show ? '70%' : '0%';
-    }
-
-    // Initialize
-    loadData();
+    saveAndRender();
 </script>
 </body>
 </html>
