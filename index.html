@@ -170,17 +170,6 @@
     }
 
     async function joinProject(index) {
-        // --- ADDED: Date restriction check ---
-        // Note: Year 2026, Month 3 (April is 3 because months are 0-indexed), Day 1, 10:00:00 AM
-        const unlockDate = new Date(2026, 3, 1, 10, 0, 0); 
-        const now = new Date();
-
-        if (now < unlockDate) {
-            alert("Phase 2 has not started. Joining groups is restricted until April 1st at 10:00 AM.");
-            return; // Stops the function here so they can't proceed
-        }
-        // -------------------------------------
-
         const name = prompt("Enter your full name:");
         if (!name) return;
         const email = prompt("Enter your institutional email:");
