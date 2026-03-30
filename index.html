@@ -80,8 +80,14 @@
 </header>
 
 <div class="main-content">
+
+    <div id="sync-bar">
+        <div id="sync-status">Connecting…</div>
+        <button class="btn-refresh" onclick="refreshData()">↻ Refresh</button>
+    </div>
+
     <div class="proposal-card">
-        <h3 style="margin-top: 0; margin-bottom: 1.5rem; border-left: 4px solid var(--primary); padding-left: 10px;">1. Submit Your Proposal</h3>
+        <h3 style="margin-top:0; margin-bottom:1.5rem; border-left:4px solid var(--primary); padding-left:10px;">1. Submit Your Proposal</h3>
         <div class="grid-form">
             <div>
                 <label>Leader Name</label>
@@ -100,8 +106,8 @@
                 <textarea id="projDesc" rows="3" placeholder="Predicts the entire personality of a hamster from a single photo. Are they secretly plotting world domination? Obsessed with sunflower seeds? Likely to do a midair backflip?"></textarea>
             </div>
         </div>
-        <div style="margin-top: 1.5rem; text-align: right;">
-            <button class="btn-main" onclick="addProject()">Publish Proposal</button>
+        <div style="margin-top:1.5rem; text-align:right;">
+            <button class="btn-main" id="publish-btn" onclick="addProject()">Publish Proposal</button>
         </div>
     </div>
 
