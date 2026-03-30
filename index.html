@@ -14,39 +14,31 @@
             --border: #e2e8f0;
             --danger: #ef4444;
         }
-
         body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg); color: var(--text-main); display: flex; flex-direction: column; align-items: center; }
         header { width: 100%; background: white; padding: 1.5rem 0; border-bottom: 1px solid var(--border); text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .course-badge { display: inline-block; background: #dbeafe; color: #1d4ed8; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 99px; margin-bottom: 0.5rem; }
         .main-content { max-width: 1400px; width: 95%; margin: 2rem 0; }
-
         #sync-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
         #sync-status { font-size: 0.8rem; color: #94a3b8; }
         #sync-status.syncing { color: #2563eb; }
         #sync-status.error   { color: #ef4444; }
         #sync-status.success { color: #16a34a; }
-
         .proposal-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2rem; border: 1px solid var(--border); }
         .grid-form { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
         .full-width { grid-column: span 3; }
         label { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; display: block; color: #475569; }
         input, textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; transition: all 0.2s; box-sizing: border-box; }
         input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-
         .table-container { background: white; border-radius: 12px; overflow-x: auto; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; min-width: 1000px; }
         th { background-color: #f1f5f9; padding: 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); color: #475569; }
         td { padding: 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
-
         .col-leader { width: 180px; }
         .col-member { background-color: var(--accent-yellow); width: 150px; border-left: 1px solid #eab30822; }
-
         .email-link { color: var(--primary); text-decoration: none; font-weight: 600; }
         .email-link:hover { opacity: 0.7; text-decoration: underline; }
-
         .member-tag { display: flex; flex-direction: column; background: #fffbeb; padding: 6px; border-radius: 6px; border: 1px solid #fde68a; position: relative; }
         .remove-x { position: absolute; top: 2px; right: 5px; color: var(--danger); cursor: pointer; font-size: 1.2rem; border: none; background: none; }
-
         .btn-main { background-color: var(--primary); color: white; border: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 600; cursor: pointer; }
         .btn-main:disabled { background: #94a3b8; cursor: not-allowed; }
         .btn-refresh { background: white; border: 1px solid var(--border); color: #475569; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
@@ -54,14 +46,11 @@
         .btn-join { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 0.4rem; width: 100%; border-radius: 4px; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
         .btn-join:hover { background: var(--primary); color: white; }
         .btn-join:disabled { background: #e5e7eb; color: #9ca3af; border-color: #e5e7eb; cursor: not-allowed; }
-
         .tooltip-wrapper { position: relative; display: inline-block; width: 100%; }
         .tooltip-text { visibility: hidden; opacity: 0; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background-color: #1e293b; color: white; padding: 6px 8px; border-radius: 6px; font-size: 0.75rem; width: 220px; text-align: center; transition: opacity 0.2s; z-index: 10; }
         .tooltip-wrapper:hover .tooltip-text { visibility: visible; opacity: 1; }
-
         .badge-full { background: #fee2e2; color: #991b1b; padding: 0.4rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-align: center; display: block; }
         .withdraw-link { font-size: 0.7rem; color: #94a3b8; cursor: pointer; text-decoration: underline; display: block; margin-top: 5px; }
-
         #loading-overlay { position: fixed; inset: 0; background: rgba(248,250,252,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; gap: 1rem; }
         #loading-overlay.hidden { display: none; }
         .spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -107,6 +96,7 @@
         </div>
     </div>
 
+
     <div class="table-container">
         <table id="projectTable">
             <thead>
@@ -123,21 +113,19 @@
             <tbody></tbody>
         </table>
     </div>
-
     <p style="text-align:center; font-size:0.75rem; color:#cbd5e1; margin-top:1rem;">Auto-refreshes every 30 seconds</p>
 </div>
 
 <script>
     // ═══════════════════════════════════════════════════════════════
-    //  Paste your Google Apps Script Web App URL here
+    //  Paste your Google Apps Script Web App URL here (only change needed)
     // ═══════════════════════════════════════════════════════════════
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzo9MGiXl_Ll_BHXg4CxLXdjoZmrn-7teEWFU_Oak93jLwMCBRRiL18e2V-2mUx-gY8/exec';
-    const COURSE     = 'buan4061';   //
+    const COURSE     = 'buan4061';  // ← do NOT change this line
     // ═══════════════════════════════════════════════════════════════
 
     const restrictionTime = new Date('2026-04-01T14:00:00');
     const warningMessage  = "Students will only be permitted to join another group as a member after April 1 at 2:00 PM.";
-
     let projects = [];
 
     window.addEventListener('DOMContentLoaded', async () => {
@@ -165,11 +153,9 @@
         setStatus('⟳ Saving…', 'syncing');
         setBusy(true);
         try {
-            const res  = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'save', course: COURSE, projects })
-            });
-            const json = await res.json();
+            const encoded = encodeURIComponent(JSON.stringify(projects));
+            const res     = await fetch(`${SCRIPT_URL}?action=save&course=${COURSE}&data=${encoded}`);
+            const json    = await res.json();
             if (!json.ok) throw new Error(json.error);
             render();
             setStatus(`✓ Saved · ${new Date().toLocaleTimeString()}`, 'success');
