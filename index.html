@@ -3,49 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Collaboration Portal</title>
+    <title>BUAN 4061 – Project Collaboration Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #2563eb;
-            --bg: #f8fafc;
-            --text-main: #1e293b;
-            --accent-yellow: #fef9c3;
-            --border: #e2e8f0;
-            --danger: #ef4444;
-        }
-
+        :root { --primary: #2563eb; --bg: #f8fafc; --text-main: #1e293b; --accent-yellow: #fef9c3; --border: #e2e8f0; --danger: #ef4444; }
         body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg); color: var(--text-main); display: flex; flex-direction: column; align-items: center; }
         header { width: 100%; background: white; padding: 1.5rem 0; border-bottom: 1px solid var(--border); text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .course-badge { display: inline-block; background: #dbeafe; color: #1d4ed8; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 99px; margin-bottom: 0.5rem; }
         .main-content { max-width: 1400px; width: 95%; margin: 2rem 0; }
-
-        #sync-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+        #sync-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
         #sync-status { font-size: 0.8rem; color: #94a3b8; }
         #sync-status.syncing { color: #2563eb; }
-        #sync-status.error   { color: #ef4444; }
+        #sync-status.error { color: #ef4444; }
         #sync-status.success { color: #16a34a; }
-
         .proposal-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 2rem; border: 1px solid var(--border); }
         .grid-form { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
         .full-width { grid-column: span 3; }
         label { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.5rem; display: block; color: #475569; }
-        input, textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; transition: all 0.2s; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; box-sizing: border-box; }
         input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-
         .table-container { background: white; border-radius: 12px; overflow-x: auto; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid var(--border); }
         table { width: 100%; border-collapse: collapse; min-width: 1000px; }
         th { background-color: #f1f5f9; padding: 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); color: #475569; }
         td { padding: 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
-
         .col-leader { width: 180px; }
         .col-member { background-color: var(--accent-yellow); width: 150px; border-left: 1px solid #eab30822; }
-
         .email-link { color: var(--primary); text-decoration: none; font-weight: 600; }
         .email-link:hover { opacity: 0.7; text-decoration: underline; }
-
         .member-tag { display: flex; flex-direction: column; background: #fffbeb; padding: 6px; border-radius: 6px; border: 1px solid #fde68a; position: relative; }
         .remove-x { position: absolute; top: 2px; right: 5px; color: var(--danger); cursor: pointer; font-size: 1.2rem; border: none; background: none; }
-
         .btn-main { background-color: var(--primary); color: white; border: none; padding: 0.75rem 2rem; border-radius: 6px; font-weight: 600; cursor: pointer; }
         .btn-main:disabled { background: #94a3b8; cursor: not-allowed; }
         .btn-refresh { background: white; border: 1px solid var(--border); color: #475569; padding: 0.45rem 1rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
@@ -53,15 +39,12 @@
         .btn-join { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 0.4rem; width: 100%; border-radius: 4px; font-size: 0.8rem; cursor: pointer; font-weight: 600; }
         .btn-join:hover { background: var(--primary); color: white; }
         .btn-join:disabled { background: #e5e7eb; color: #9ca3af; border-color: #e5e7eb; cursor: not-allowed; }
-
         .tooltip-wrapper { position: relative; display: inline-block; width: 100%; }
         .tooltip-text { visibility: hidden; opacity: 0; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background-color: #1e293b; color: white; padding: 6px 8px; border-radius: 6px; font-size: 0.75rem; width: 220px; text-align: center; transition: opacity 0.2s; z-index: 10; }
         .tooltip-wrapper:hover .tooltip-text { visibility: visible; opacity: 1; }
-
         .badge-full { background: #fee2e2; color: #991b1b; padding: 0.4rem; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-align: center; display: block; }
         .withdraw-link { font-size: 0.7rem; color: #94a3b8; cursor: pointer; text-decoration: underline; display: block; margin-top: 5px; }
-
-        #loading-overlay { position: fixed; inset: 0; background: rgba(248,250,252,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; gap: 1rem; }
+        #loading-overlay { position: fixed; inset: 0; background: rgba(248,250,252,0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; gap: 1rem; }
         #loading-overlay.hidden { display: none; }
         .spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -71,42 +54,30 @@
 
 <div id="loading-overlay">
     <div class="spinner"></div>
-    <div style="color:#64748b; font-size:0.9rem;" id="loading-msg">Loading data…</div>
+    <div id="loading-msg" style="color:#64748b;font-size:0.9rem;">Loading data…</div>
 </div>
 
 <header>
-    <h1>Project Collaboration Portal</h1>
-    <p style="color:#64748b; margin:0.5rem 0 0 0;">Connect with peers and finalize your research teams.</p>
+    <div class="course-badge">BUAN 4061</div>
+    <h1 style="margin:0;">Project Collaboration Portal</h1>
+    <p style="color:#64748b;margin:0.5rem 0 0 0;">Connect with peers and finalize your research teams.</p>
 </header>
 
 <div class="main-content">
-
     <div id="sync-bar">
-        <div id="sync-status">Connecting…</div>
+        <span id="sync-status">Connecting…</span>
         <button class="btn-refresh" onclick="refreshData()">↻ Refresh</button>
     </div>
 
     <div class="proposal-card">
-        <h3 style="margin-top:0; margin-bottom:1.5rem; border-left:4px solid var(--primary); padding-left:10px;">1. Submit Your Proposal</h3>
+        <h3 style="margin-top:0;margin-bottom:1.5rem;border-left:4px solid var(--primary);padding-left:10px;">1. Submit Your Proposal</h3>
         <div class="grid-form">
-            <div>
-                <label>Leader Name</label>
-                <input type="text" id="leaderName" placeholder="Dr. Du">
-            </div>
-            <div>
-                <label>Institutional Email</label>
-                <input type="email" id="leaderEmail" placeholder="du@university.edu">
-            </div>
-            <div>
-                <label>Project Title</label>
-                <input type="text" id="projName" placeholder="HamsterGO!">
-            </div>
-            <div class="full-width">
-                <label>Research Proposal Summary</label>
-                <textarea id="projDesc" rows="3" placeholder="Predicts the entire personality of a hamster from a single photo. Are they secretly plotting world domination? Obsessed with sunflower seeds? Likely to do a midair backflip?"></textarea>
-            </div>
+            <div><label>Leader Name</label><input type="text" id="leaderName" placeholder="Dr. Du"></div>
+            <div><label>Institutional Email</label><input type="email" id="leaderEmail" placeholder="du@university.edu"></div>
+            <div><label>Project Title</label><input type="text" id="projName" placeholder="HamsterGO!"></div>
+            <div class="full-width"><label>Research Proposal Summary</label><textarea id="projDesc" rows="3" placeholder="Predicts the entire personality of a hamster from a single photo. Are they secretly plotting world domination? Obsessed with sunflower seeds? Likely to do a midair backflip?"></textarea></div>
         </div>
-        <div style="margin-top:1.5rem; text-align:right;">
+        <div style="margin-top:1.5rem;text-align:right;">
             <button class="btn-main" id="publish-btn" onclick="addProject()">Publish Proposal</button>
         </div>
     </div>
@@ -124,43 +95,46 @@
                     <th style="width:100px;">Status</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
-
-    <p style="text-align:center; font-size:0.75rem; color:#cbd5e1; margin-top:1rem;">
-        Auto-refreshes every 30 seconds
-    </p>
+    <p style="text-align:center;font-size:0.75rem;color:#cbd5e1;margin-top:1rem;">Auto-refreshes every 30 seconds</p>
 </div>
 
 <script>
-    // ═══════════════════════════════════════════════════════════════
-    //  Paste your Google Apps Script Web App URL here (only change needed)
-    // ═══════════════════════════════════════════════════════════════
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzd74uo2X0CIfXG7IVT4eBv3HHUz3KaukADQJAn8C2q1bN3Hrtc4I2al3jtiPNq8dSdqw/exec';
-    // ═══════════════════════════════════════════════════════════════
+    // ── Supabase config (safe to expose) ──────────────────────────
+    const SUPABASE_URL = 'https://khfxhitauctjhairtdjw.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_JTFNxREWSezPuimKTo6p9Q_7x8mYCBs';
+    const COURSE_ID    = 4061; // row id in the projects table
+    // ─────────────────────────────────────────────────────────────
+
+    const API = `${SUPABASE_URL}/rest/v1/projects`;
+    const HEADERS = {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+    };
 
     const restrictionTime = new Date('2026-04-01T14:00:00');
     const warningMessage  = "Students will only be permitted to join another group as a member after April 1 at 2:00 PM.";
-
     let projects = [];
 
-    // ── Startup ───────────────────────────────────────────────────
     window.addEventListener('DOMContentLoaded', async () => {
         await loadData();
         setInterval(loadData, 30000);
     });
 
-    // ── Load from Google Sheet ────────────────────────────────────
     async function loadData() {
         setStatus('⟳ Syncing…', 'syncing');
         try {
-            const res  = await fetch(`${SCRIPT_URL}?action=load`);
-            const json = await res.json();
-            if (!json.ok) throw new Error(json.error);
-            projects = json.projects;
+            const res  = await fetch(`${API}?id=eq.${COURSE_ID}&select=data`, { headers: HEADERS });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const rows = await res.json();
+            if (!rows.length) throw new Error('No data row found — did you run the SQL setup?');
+            projects = rows[0].data || [];
             render();
-            setStatus(`✓ Live · synced ${new Date().toLocaleTimeString()}`, 'success');
+            setStatus(`✓ Live · ${new Date().toLocaleTimeString()}`, 'success');
         } catch(e) {
             setStatus(`✗ ${e.message}`, 'error');
         } finally {
@@ -168,17 +142,16 @@
         }
     }
 
-    // ── Save to Google Sheet ──────────────────────────────────────
     async function saveData() {
         setStatus('⟳ Saving…', 'syncing');
         setBusy(true);
         try {
-            const res  = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'save', projects })
+            const res = await fetch(`${API}?id=eq.${COURSE_ID}`, {
+                method: 'PATCH',
+                headers: HEADERS,
+                body: JSON.stringify({ data: projects, updated_at: new Date().toISOString() })
             });
-            const json = await res.json();
-            if (!json.ok) throw new Error(json.error);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
             render();
             setStatus(`✓ Saved · ${new Date().toLocaleTimeString()}`, 'success');
         } catch(e) {
@@ -188,20 +161,14 @@
         }
     }
 
-    // ── Refresh button ────────────────────────────────────────────
-    async function refreshData() {
-        showLoading('Refreshing…');
-        await loadData();
-    }
+    async function refreshData() { showLoading('Refreshing…'); await loadData(); }
 
-    // ── Add project ───────────────────────────────────────────────
     async function addProject() {
         const leader = document.getElementById('leaderName').value.trim();
         const email  = document.getElementById('leaderEmail').value.trim();
         const name   = document.getElementById('projName').value.trim();
         const desc   = document.getElementById('projDesc').value.trim();
         if (!leader || !email || !name) { alert('All fields are required.'); return; }
-
         showLoading('Publishing…');
         await loadData();
         projects.push({ id: Date.now(), leader, leaderEmail: email, projectName: name, description: desc, members: [] });
@@ -210,14 +177,12 @@
         hideLoading();
     }
 
-    // ── Join project ──────────────────────────────────────────────
     async function joinProject(index) {
         if (new Date() < restrictionTime) { alert(warningMessage); return; }
         const name  = prompt('Enter your name:');
         if (!name) return;
         const email = prompt('Enter your email address:');
         if (!email) return;
-
         showLoading('Joining…');
         await loadData();
         if (projects[index].members.length >= 4) { alert('This group is already full.'); hideLoading(); return; }
@@ -226,11 +191,9 @@
         hideLoading();
     }
 
-    // ── Leave project ─────────────────────────────────────────────
     async function leaveProject(pIdx, mIdx) {
         const verify = prompt('To withdraw, please verify your email address:');
         if (verify !== projects[pIdx].members[mIdx].email) { alert('Email verification failed.'); return; }
-
         showLoading('Withdrawing…');
         await loadData();
         const mi = projects[pIdx].members.findIndex(m => m.email === verify);
@@ -240,12 +203,10 @@
         hideLoading();
     }
 
-    // ── Withdraw proposal ─────────────────────────────────────────
     async function withdrawProposal(pIdx) {
         const verify = prompt("Verify the Leader's email to delete this proposal:");
         if (verify !== projects[pIdx].leaderEmail) { alert('Email verification failed.'); return; }
         if (!confirm('Are you sure you want to remove this entire project?')) return;
-
         showLoading('Deleting…');
         await loadData();
         const pi = projects.findIndex(p => p.leaderEmail === verify);
@@ -255,65 +216,52 @@
         hideLoading();
     }
 
-    // ── Render table ──────────────────────────────────────────────
     function render() {
-        const tbody      = document.querySelector('#projectTable tbody');
+        const tbody      = document.getElementById('tableBody');
         const restricted = new Date() < restrictionTime;
         tbody.innerHTML  = '';
-
         projects.forEach((p, pIdx) => {
             let cells = '';
             for (let i = 0; i < 4; i++) {
                 if (p.members[i]) {
-                    cells += `<td class="col-member">
-                        <div class="member-tag">
-                            <a href="mailto:${p.members[i].email}" class="email-link">${p.members[i].name}</a>
-                            <button class="remove-x" onclick="leaveProject(${pIdx},${i})">&times;</button>
-                        </div></td>`;
+                    cells += `<td class="col-member"><div class="member-tag">
+                        <a href="mailto:${p.members[i].email}" class="email-link">${p.members[i].name}</a>
+                        <button class="remove-x" onclick="leaveProject(${pIdx},${i})">&times;</button>
+                    </div></td>`;
                 } else if (restricted) {
-                    cells += `<td class="col-member">
-                        <div class="tooltip-wrapper">
-                            <button class="btn-join" disabled>Join</button>
-                            <div class="tooltip-text">${warningMessage}</div>
-                        </div></td>`;
+                    cells += `<td class="col-member"><div class="tooltip-wrapper">
+                        <button class="btn-join" disabled>Join</button>
+                        <div class="tooltip-text">${warningMessage}</div>
+                    </div></td>`;
                 } else {
-                    cells += `<td class="col-member">
-                        <button class="btn-join" onclick="joinProject(${pIdx})">Join</button></td>`;
+                    cells += `<td class="col-member"><button class="btn-join" onclick="joinProject(${pIdx})">Join</button></td>`;
                 }
             }
-
-            tbody.innerHTML += `
-                <tr>
-                    <td class="col-leader">
-                        <a href="mailto:${p.leaderEmail}" class="email-link">${p.leader}</a>
-                        <span class="withdraw-link" onclick="withdrawProposal(${pIdx})">Withdraw Proposal</span>
-                    </td>
-                    <td>
-                        <div style="font-weight:600;">${p.projectName}</div>
-                        <div style="font-size:0.85rem;color:#64748b;">${p.description}</div>
-                    </td>
-                    ${cells}
-                    <td>${p.members.length >= 4 ? '<span class="badge-full">FULL</span>' : ''}</td>
-                </tr>`;
+            tbody.innerHTML += `<tr>
+                <td class="col-leader">
+                    <a href="mailto:${p.leaderEmail}" class="email-link">${p.leader}</a>
+                    <span class="withdraw-link" onclick="withdrawProposal(${pIdx})">Withdraw Proposal</span>
+                </td>
+                <td>
+                    <div style="font-weight:600;">${p.projectName}</div>
+                    <div style="font-size:0.85rem;color:#64748b;">${p.description}</div>
+                </td>
+                ${cells}
+                <td>${p.members.length >= 4 ? '<span class="badge-full">FULL</span>' : ''}</td>
+            </tr>`;
         });
     }
 
-    // ── UI helpers ────────────────────────────────────────────────
-    function setStatus(msg, type = '') {
+    function setStatus(msg, type='') {
         const el = document.getElementById('sync-status');
-        el.textContent = msg;
-        el.className   = type;
+        if (el) { el.textContent = msg; el.className = type; }
     }
-    function setBusy(busy) {
-        document.getElementById('publish-btn').disabled = busy;
-    }
-    function showLoading(msg = 'Loading…') {
+    function setBusy(busy) { document.getElementById('publish-btn').disabled = busy; }
+    function showLoading(msg='Loading…') {
         document.getElementById('loading-msg').textContent = msg;
         document.getElementById('loading-overlay').classList.remove('hidden');
     }
-    function hideLoading() {
-        document.getElementById('loading-overlay').classList.add('hidden');
-    }
+    function hideLoading() { document.getElementById('loading-overlay').classList.add('hidden'); }
 </script>
 </body>
 </html>
