@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Collaboration Portal</title>
+    <title>BUAN 4061 – Project Collaboration Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -17,6 +17,7 @@
 
         body { font-family: 'Inter', sans-serif; margin: 0; background-color: var(--bg); color: var(--text-main); display: flex; flex-direction: column; align-items: center; }
         header { width: 100%; background: white; padding: 1.5rem 0; border-bottom: 1px solid var(--border); text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .course-badge { display: inline-block; background: #dbeafe; color: #1d4ed8; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 99px; margin-bottom: 0.5rem; }
         .main-content { max-width: 1400px; width: 95%; margin: 2rem 0; }
 
         #sync-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
@@ -75,7 +76,8 @@
 </div>
 
 <header>
-    <h1>Project Collaboration Portal</h1>
+    <div class="course-badge">BUAN 4061</div>
+    <h1 style="margin:0;">Project Collaboration Portal</h1>
     <p style="color:#64748b; margin:0.5rem 0 0 0;">Connect with peers and finalize your research teams.</p>
 </header>
 
@@ -115,20 +117,22 @@
                     <th class="col-member">Member 2</th>
                     <th class="col-member">Member 3</th>
                     <th class="col-member">Member 4</th>
-                    <th style="width: 100px;">Status</th>
+                    <th style="width:100px;">Status</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
     </div>
-</div>
 
+    <p style="text-align:center; font-size:0.75rem; color:#cbd5e1; margin-top:1rem;">Auto-refreshes every 30 seconds</p>
+</div>
 
 <script>
     // ═══════════════════════════════════════════════════════════════
-    //  Paste your Google Apps Script Web App URL here (only change needed)
+    //  Paste your Google Apps Script Web App URL here
     // ═══════════════════════════════════════════════════════════════
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsEg45F1pwaXCh33Q8CsvdZ27TFIYDv3RenD_0cYY/dev';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymJQ4ITcips7RVzM88UX3lZX13jcrfmAoTi3B0qvH0webAKeg-Fh2F5c79TmnP0iIgow/exec';
+    const COURSE     = 'buan4061';   // ← do NOT change this line
     // ═══════════════════════════════════════════════════════════════
 
     const restrictionTime = new Date('2026-04-01T14:00:00');
@@ -136,17 +140,15 @@
 
     let projects = [];
 
-    // ── Startup ───────────────────────────────────────────────────
     window.addEventListener('DOMContentLoaded', async () => {
         await loadData();
         setInterval(loadData, 30000);
     });
 
-    // ── Load from Google Sheet ────────────────────────────────────
     async function loadData() {
         setStatus('⟳ Syncing…', 'syncing');
         try {
-            const res  = await fetch(`${SCRIPT_URL}?action=load`);
+            const res  = await fetch(`${SCRIPT_URL}?action=load&course=${COURSE}`);
             const json = await res.json();
             if (!json.ok) throw new Error(json.error);
             projects = json.projects;
@@ -159,14 +161,13 @@
         }
     }
 
-    // ── Save to Google Sheet ──────────────────────────────────────
     async function saveData() {
         setStatus('⟳ Saving…', 'syncing');
         setBusy(true);
         try {
             const res  = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                body: JSON.stringify({ action: 'save', projects })
+                body: JSON.stringify({ action: 'save', course: COURSE, projects })
             });
             const json = await res.json();
             if (!json.ok) throw new Error(json.error);
@@ -179,20 +180,14 @@
         }
     }
 
-    // ── Refresh button ────────────────────────────────────────────
-    async function refreshData() {
-        showLoading('Refreshing…');
-        await loadData();
-    }
+    async function refreshData() { showLoading('Refreshing…'); await loadData(); }
 
-    // ── Add project ───────────────────────────────────────────────
     async function addProject() {
         const leader = document.getElementById('leaderName').value.trim();
         const email  = document.getElementById('leaderEmail').value.trim();
         const name   = document.getElementById('projName').value.trim();
         const desc   = document.getElementById('projDesc').value.trim();
         if (!leader || !email || !name) { alert('All fields are required.'); return; }
-
         showLoading('Publishing…');
         await loadData();
         projects.push({ id: Date.now(), leader, leaderEmail: email, projectName: name, description: desc, members: [] });
@@ -201,14 +196,12 @@
         hideLoading();
     }
 
-    // ── Join project ──────────────────────────────────────────────
     async function joinProject(index) {
         if (new Date() < restrictionTime) { alert(warningMessage); return; }
         const name  = prompt('Enter your name:');
         if (!name) return;
         const email = prompt('Enter your email address:');
         if (!email) return;
-
         showLoading('Joining…');
         await loadData();
         if (projects[index].members.length >= 4) { alert('This group is already full.'); hideLoading(); return; }
@@ -217,11 +210,9 @@
         hideLoading();
     }
 
-    // ── Leave project ─────────────────────────────────────────────
     async function leaveProject(pIdx, mIdx) {
         const verify = prompt('To withdraw, please verify your email address:');
         if (verify !== projects[pIdx].members[mIdx].email) { alert('Email verification failed.'); return; }
-
         showLoading('Withdrawing…');
         await loadData();
         const mi = projects[pIdx].members.findIndex(m => m.email === verify);
@@ -231,12 +222,10 @@
         hideLoading();
     }
 
-    // ── Withdraw proposal ─────────────────────────────────────────
     async function withdrawProposal(pIdx) {
         const verify = prompt("Verify the Leader's email to delete this proposal:");
         if (verify !== projects[pIdx].leaderEmail) { alert('Email verification failed.'); return; }
         if (!confirm('Are you sure you want to remove this entire project?')) return;
-
         showLoading('Deleting…');
         await loadData();
         const pi = projects.findIndex(p => p.leaderEmail === verify);
@@ -246,65 +235,46 @@
         hideLoading();
     }
 
-    // ── Render table ──────────────────────────────────────────────
     function render() {
         const tbody      = document.querySelector('#projectTable tbody');
         const restricted = new Date() < restrictionTime;
         tbody.innerHTML  = '';
-
         projects.forEach((p, pIdx) => {
             let cells = '';
             for (let i = 0; i < 4; i++) {
                 if (p.members[i]) {
-                    cells += `<td class="col-member">
-                        <div class="member-tag">
-                            <a href="mailto:${p.members[i].email}" class="email-link">${p.members[i].name}</a>
-                            <button class="remove-x" onclick="leaveProject(${pIdx},${i})">&times;</button>
-                        </div></td>`;
+                    cells += `<td class="col-member"><div class="member-tag">
+                        <a href="mailto:${p.members[i].email}" class="email-link">${p.members[i].name}</a>
+                        <button class="remove-x" onclick="leaveProject(${pIdx},${i})">&times;</button>
+                    </div></td>`;
                 } else if (restricted) {
-                    cells += `<td class="col-member">
-                        <div class="tooltip-wrapper">
-                            <button class="btn-join" disabled>Join</button>
-                            <div class="tooltip-text">${warningMessage}</div>
-                        </div></td>`;
+                    cells += `<td class="col-member"><div class="tooltip-wrapper">
+                        <button class="btn-join" disabled>Join</button>
+                        <div class="tooltip-text">${warningMessage}</div>
+                    </div></td>`;
                 } else {
-                    cells += `<td class="col-member">
-                        <button class="btn-join" onclick="joinProject(${pIdx})">Join</button></td>`;
+                    cells += `<td class="col-member"><button class="btn-join" onclick="joinProject(${pIdx})">Join</button></td>`;
                 }
             }
-
-            tbody.innerHTML += `
-                <tr>
-                    <td class="col-leader">
-                        <a href="mailto:${p.leaderEmail}" class="email-link">${p.leader}</a>
-                        <span class="withdraw-link" onclick="withdrawProposal(${pIdx})">Withdraw Proposal</span>
-                    </td>
-                    <td>
-                        <div style="font-weight:600;">${p.projectName}</div>
-                        <div style="font-size:0.85rem;color:#64748b;">${p.description}</div>
-                    </td>
-                    ${cells}
-                    <td>${p.members.length >= 4 ? '<span class="badge-full">FULL</span>' : ''}</td>
-                </tr>`;
+            tbody.innerHTML += `<tr>
+                <td class="col-leader">
+                    <a href="mailto:${p.leaderEmail}" class="email-link">${p.leader}</a>
+                    <span class="withdraw-link" onclick="withdrawProposal(${pIdx})">Withdraw Proposal</span>
+                </td>
+                <td>
+                    <div style="font-weight:600;">${p.projectName}</div>
+                    <div style="font-size:0.85rem;color:#64748b;">${p.description}</div>
+                </td>
+                ${cells}
+                <td>${p.members.length >= 4 ? '<span class="badge-full">FULL</span>' : ''}</td>
+            </tr>`;
         });
     }
 
-    // ── UI helpers ────────────────────────────────────────────────
-    function setStatus(msg, type = '') {
-        const el = document.getElementById('sync-status');
-        el.textContent = msg;
-        el.className   = type;
-    }
-    function setBusy(busy) {
-        document.getElementById('publish-btn').disabled = busy;
-    }
-    function showLoading(msg = 'Loading…') {
-        document.getElementById('loading-msg').textContent = msg;
-        document.getElementById('loading-overlay').classList.remove('hidden');
-    }
-    function hideLoading() {
-        document.getElementById('loading-overlay').classList.add('hidden');
-    }
+    function setStatus(msg, type='') { const el=document.getElementById('sync-status'); el.textContent=msg; el.className=type; }
+    function setBusy(busy) { document.getElementById('publish-btn').disabled=busy; }
+    function showLoading(msg='Loading…') { document.getElementById('loading-msg').textContent=msg; document.getElementById('loading-overlay').classList.remove('hidden'); }
+    function hideLoading() { document.getElementById('loading-overlay').classList.add('hidden'); }
 </script>
 </body>
 </html>
