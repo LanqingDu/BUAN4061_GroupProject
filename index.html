@@ -91,7 +91,6 @@
                     <th class="col-member">Member 1</th>
                     <th class="col-member">Member 2</th>
                     <th class="col-member">Member 3</th>
-                    <th class="col-member">Member 4</th>
                     <th style="width:100px;">Status</th>
                 </tr>
             </thead>
@@ -185,7 +184,7 @@
         if (!email) return;
         showLoading('Joining…');
         await loadData();
-        if (projects[index].members.length >= 4) { alert('This group is already full.'); hideLoading(); return; }
+        if (projects[index].members.length >= 3) { alert('This group is already full.'); hideLoading(); return; }
         projects[index].members.push({ name, email });
         await saveData();
         hideLoading();
@@ -222,7 +221,7 @@
         tbody.innerHTML  = '';
         projects.forEach((p, pIdx) => {
             let cells = '';
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 3; i++) {
                 if (p.members[i]) {
                     cells += `<td class="col-member"><div class="member-tag">
                         <a href="mailto:${p.members[i].email}" class="email-link">${p.members[i].name}</a>
@@ -247,7 +246,7 @@
                     <div style="font-size:0.85rem;color:#64748b;">${p.description}</div>
                 </td>
                 ${cells}
-                <td>${p.members.length >= 4 ? '<span class="badge-full">FULL</span>' : ''}</td>
+                <td>${p.members.length >= 3 ? '<span class="badge-full">FULL</span>' : ''}</td>
             </tr>`;
         });
     }
